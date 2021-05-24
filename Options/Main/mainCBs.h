@@ -16,10 +16,15 @@ namespace mainOpt {
 			switch (state.inputMode) {
       case ConsoleUI::InputMode::STD:
 			  std::cout << " Введите размер массива: ";
-        size = Input::readOne<int>();
+				try {
+					size = Input::readOne<int>();
+				} catch (const std::exception&) {}
+        
         while (size < 1) {
           std::cout << " Некорректный ввод. Повторите попытку:" << std::endl;
-          size = Input::readOne<int>();
+					try {
+						size = Input::readOne<int>();
+					} catch (const std::exception&) {}
         }
         break;
 

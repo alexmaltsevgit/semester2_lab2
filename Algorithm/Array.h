@@ -18,7 +18,7 @@ public:
     _size(size)
   {}
 
-  Array(Array<T>&& other) :
+  Array(Array<T>&& other) noexcept :
     Array(other._size)
   {
     for (int i = 0; i < _size; i++) {
@@ -95,17 +95,13 @@ std::ostream& operator<<(std::ostream& out, const Array<Type>& arr) {
 
 template<typename Type>
 std::istream& operator>>(std::istream& in, Array<Type>& arr) {
-  try {
-    Type* elements = Input::read<Type>(arr.size(), in);
-  } catch (std::runtime_error& e) {
-    throw e;
-  }
-
   for (int i = 0; i < arr.size(); i++) {
-    arr[i] = elements[i];
+    try {
+      arr[i] = Input::readOne<Type>(in);
+    } catch (std::runtime_error& e) {
+      throw e;
+    }
   }
-
-  delete[] elements;
 
   return in;
 }

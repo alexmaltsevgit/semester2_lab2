@@ -10,7 +10,7 @@ namespace ConsoleUI {
 
 	class Menu : private Navigation {
 	private:
-		const std::string_view _header;
+		const std::string _header;
 		const Options* _options;
 
 		State _state;
@@ -24,7 +24,7 @@ namespace ConsoleUI {
 		void _printCurrentOptions() const;
 
 	public:
-		Menu(std::string_view workName, Options* options);
+		Menu(std::string workName, Options* options);
 
 		void startSelectionLoop();
 	};

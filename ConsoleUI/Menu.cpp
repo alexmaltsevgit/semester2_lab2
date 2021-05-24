@@ -6,9 +6,9 @@
 
 
 
-ConsoleUI::Menu::Menu(std::string_view  header, Options* options) :
+ConsoleUI::Menu::Menu(std::string header, Options* options) :
 	Navigation(),
-	_header(header),
+	_header(std::move(header)),
 	_options(options),
 	_state()
 {
@@ -49,7 +49,7 @@ void ConsoleUI::Menu::_printCurrentOptions() const {
 		if (_choice == i) {
 			ConsoleState::setColor(ConsoleState::Color::Black, ConsoleState::Color::LightGray);
 		}
-    std::cout << "> " << _options[_state._currentOptionsIndex][i] << std::endl;
+    std::cout << '[' << i+1 << "] " << _options[_state._currentOptionsIndex][i] << std::endl;
 		ConsoleState::setColor(ConsoleState::Color::LightGray, ConsoleState::Color::Black);
 	}
 

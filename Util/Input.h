@@ -4,6 +4,9 @@
 #include <limits>
 
 class Input {
+private:
+  static inline std::string errorMessage = "INPUT ERROR";
+
 public:
 	template<typename T>
 	static T* read(int inputCount, std::istream& in = std::cin) {
@@ -12,7 +15,9 @@ public:
     for (int i = 0; i < inputCount; i++) {
       in >> inputs[i];
       if (in.fail()) {
-        throw (std::runtime_error("Input::read() ERROR: WRONG TYPE RECEIVED"));
+        in.clear();
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        throw (std::runtime_error(errorMessage));
       }
       in.clear();
     }
@@ -28,7 +33,9 @@ public:
     in >> value;
 
     if (in.fail()) {
-      throw (std::runtime_error("Input::readOne() ERROR: WRONG TYPE RECEIVED"));
+      in.clear();
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      throw (std::runtime_error(errorMessage));
     }
 
     in.clear();

@@ -16,7 +16,8 @@ private:
   template<typename T>
   static std::ostream& _printUserData(const Array<T>& array, std::ostream& out);
 
-  static void _fillRandom(Array<double>& array, int min, int max) {
+  template<typename T>
+  static void _fillRandom(Array<T>& array, int min, int max) {
     std::srand(std::time(nullptr));
 
     for (int i = 0; i < array.size(); ++i) {
@@ -36,7 +37,14 @@ public:
 template<typename T>
 void Algorithm::_readFromConsole(Array<T>& array) {
   std::cout << " Введите массив (" << array.size() << " чисел):\n " << std::endl;
-  std::cin >> array;
+  for (int i = 0; i < array.size(); i++) {
+    try {
+      array[i] = Input::readOne<T>();
+    } catch(std::exception& e) {
+      std::cout << "Некорректный ввод, повторите попытку.";
+      i--;
+    }
+  }
 }
 
 
@@ -82,7 +90,11 @@ void Algorithm::runUserInteraction(int arraySize, ConsoleUI::State& state) {
       break;
 
     case ConsoleUI::InputMode::FILE:
-      *(state.input) >> array;
+      try {
+        *(state.input) >> array;
+      } catch(std::exception& e) {
+        std::cout << "Некорректные данные в файле. Отмена операции.";
+      }
       break;
 
     case ConsoleUI::InputMode::RANDOM:
